@@ -17,6 +17,7 @@ for i in range(len(array)):
             min_index = j
     array[i], array[min_index] = array[min_index], array[i] # 스와프
 
+
 end_time = time.time() # 측정 종료
 print("선택 정렬 성능 측정:", end_time - start_time) # 수행시간 출력
 

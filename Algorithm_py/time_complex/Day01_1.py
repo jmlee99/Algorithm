@@ -13,6 +13,7 @@ summary = 0
 for x in array:
     summary += x
 
+
 # 결과를 출력
 print(summary)
 
