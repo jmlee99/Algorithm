@@ -9,5 +9,5 @@ for i in list1:
     count += n//i
     n %= i
 
-print(count)
+print(count) # 6
 
