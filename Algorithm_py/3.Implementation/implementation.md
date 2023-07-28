@@ -178,4 +178,92 @@ R R R U D D
   - 1 : 동쪽
   - 2 : 남쪽
   - 3 : 서쪽
+  3. 셋째 줄부터 맵이 육지 인지 바다인에 대한 정보가 주어진다. N개의 줄에 맵의 상태가 북쪽부터 남쪽 순서대로, 각 줄의 데이터는 서쪽부터 동쪽 순서대로 주어진다.
+    맵의 외곽은 항상 바다로 되어 있다.
+  - 0 : 육지
+  - 1 : 바다
+  - 처음 게임 캐릭터가 위한 칸의 상태는 항상 육지이다.
+ 
+   ***출력 조건***
+  1. 첫째 줄에 이동을 마친 후 캐릭터가 방문한 칸의 수를 출력한다.
 
+  ***입,출력 예시***
+  
+  입력 예시 :
+
+  4 4
+
+  1 1 0
+
+  1 1 1 1
+
+  1 0 0 1
+
+  1 1 0 1
+
+  1 1 1 1
+  
+  출력예시 : 3
+
+***문제 해설***
+
+        # 게임 개발
+        # 전체 맵 입력 받기
+        n, m = map(int, input().split())
+
+        # 방문한 위치를 저장할 맵 생성
+        d = [[0] * m for _ in range(n)]
+
+        # 현재의 위치와 현재 바라보는 방향 입력
+        x, y, direct = map(int, input().split())
+        # 현재 서 있는 곳은 방문한 것으로 설정
+        d[x][y] = 1
+
+        # 전체 맵의 정보를 입력 받기
+        array = []
+        for i in range(n):
+            array.append(list(map(int, input().split())))
+
+        # d_row, d_col 설정
+        # 북, 동, 남, 서
+        d_row = [-1, 0, 1, 0]
+        d_col = [0, 1, 0, -1]
+        
+        # 왼쪽으로 회전
+        def turn_left():
+            global direct
+            direct -= 1
+            if direct == -1:
+                direct = 3
+        
+        count = 1 # 현재 서 있는 곳을 1로 했으니 초기값은 1
+        turn_time = 0
+        
+        while True:
+            turn_left()
+            n_row = x + d_row[direct]
+            n_col = y + d_col[direct]
+            if d[n_row][n_col] == 0 and array[n_row][n_col] == 0: # 회전한 이후 정면이 가보지 않은 곳이 존재할 경우
+                d[n_row][n_col] = 1
+                x = n_row
+                y = n_col
+                count += 1
+                turn_time = 0
+                continue
+            else: # 회전 후 정면이 가본 곳이거나 바다인 경우
+                turn_time += 1
+            # 모든 방향이 갈 수 없는 경우
+            if turn_time == 4:
+                n_row = x - d_row[direct]
+                n_col = y - d_col[direct]
+                turn_time = 0
+                #뒤로 갈 수 있으면
+                if array[n_row][n_col] == 0:
+                    x = n_row
+                    y = n_col
+                # 뒤가 바다이면
+                else:
+                    break
+        
+        print(count)
+        #이 문제는 언제 끝나는지가 중요 언제 끝나는지 기준을 잡고 그에 맞춰가면서 코드를 짜나가야한다.
