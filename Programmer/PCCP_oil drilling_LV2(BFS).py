@@ -36,3 +36,25 @@ land	                                                                           
 [[0, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 1, 1, 0, 0], [1, 1, 0, 0, 0, 1, 1, 0], [1, 1, 1, 0, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0, 1, 1]]           	9
 [[1, 0, 1, 0, 1, 1], [1, 0, 1, 0, 0, 0], [1, 0, 1, 0, 0, 1], [1, 0, 0, 1, 0, 0], [1, 0, 0, 1, 0, 1], [1, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1]]	16
 '''
+from collections import deque
+def solution(land):
+    answer = 0
+    
+    n = len(land)
+    m = len(land[0])
+    
+    result = [0 for _ in range(m+1)]
+    visit = [[0 for _ in range(m)] for _ in range(n)]
+    
+    row = [0,0,1,-1]
+    col = [1,-1,0,0]
+    def bfs(x, y):
+        count = 0
+        queue = deque()
+        queue.append((x,y))
+        visit[x][y] = 1
+        Y_min, Y_max = y, y
+        while queue:
+            xx, yy = queue.popleft()
+            Y_min, Y_max = min(Y_min, yy), max(Y_max, yy)
+    return answer
