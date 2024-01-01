@@ -43,11 +43,11 @@ def solution(land):
     n = len(land)
     m = len(land[0])
     
-    result = [0 for _ in range(m+1)]
+    result = [0 for _ in range(m)]
     visit = [[0 for _ in range(m)] for _ in range(n)]
     
-    row = [0,0,1,-1]
-    col = [1,-1,0,0]
+    dx = [0,0,1,-1]
+    dy = [1,-1,0,0]
     def bfs(x, y):
         count = 0
         queue = deque()
@@ -57,4 +57,23 @@ def solution(land):
         while queue:
             xx, yy = queue.popleft()
             Y_min, Y_max = min(Y_min, yy), max(Y_max, yy)
+            count += 1
+            for i in range(4):
+                nx = xx + dx[i]
+                ny = yy + dy[i]
+                if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                    continue
+                if visit[nx][ny] == 0 and land[nx][ny] == 1:
+                    visit[nx][ny] = 1
+                    queue.append((nx, ny))
+        for i in range(Y_min, Y_max+1):
+            result[i] += count
+        
+    for i in range(n):
+        for e in range(m):
+            if visit[i][e] == 0 and land[i][e] == 1:
+                bfs(i, e)
+    
+    answer = max(result)
+    
     return answer
