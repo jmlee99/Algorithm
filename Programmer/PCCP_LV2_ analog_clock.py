@@ -84,3 +84,49 @@ ex2-1.png
 
 0시 0분 0초부터 23시 59분 59초까지 초침과 시침/분침이 겹치는 횟수는 2852며 따라서 알람이 총 2852번 울립니다.
 """
+
+def solution(h1, m1, s1, h2, m2, s2):
+    count = 0
+
+    start = h1*3600 + m1*60 + s1
+    end = h2*3600 + m2*60 + s2
+
+    # 0시 0분 0초를 확인 or 12시 0분 0초 확인
+    if start == 0 or start == 43200:
+        count += 1
+
+
+    # start time 이 end time보다 작을 때 동안
+    while start < end:
+
+        h_degree = (start / 120) % 360 # 시침은 1시간(3600초)에 30도 회전, 1초에 1 / 120도 회전  
+        m_degree = (start / 10) % 360  # 분침은 5분(300초)에 30도 회전, 1초에 1/ 10도 회전
+        s_degree = (start*6) % 360    # 시침은 5초에 30도 회전, 1초에 6도 회전
+
+        next_h_degree = ((start+1) / 120) % 360 
+        next_m_degree = ((start+1) / 10) % 360
+        next_s_degree = ((start+1) * 6) % 360
+
+        if next_h_degree == 0:
+            next_h_degree = 360
+
+        if next_m_degree == 0:
+            next_m_degree = 360
+
+        if next_s_degree == 0:
+            next_s_degree = 360
+
+        if next_h_degree == next_m_degree == next_s_degree:
+            count += 1
+            start += 1
+            continue
+
+        if h_degree > s_degree and next_h_degree <= next_s_degree:
+            count += 1
+        if m_degree > s_degree and next_m_degree <= next_s_degree:
+            count += 1
+
+        start += 1
+
+    return count  
+
