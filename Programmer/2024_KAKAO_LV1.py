@@ -25,3 +25,44 @@ friends  	gifts  	result
 ["joy", "brad", "alessandro", "conan", "david"]	["alessandro brad", "alessandro joy", "alessandro conan", "david alessandro", "alessandro david"]	4
 ["a", "b", "c"]	["a b", "b a", "c a", "a c", "a c", "c a"]	0
 '''
+def solution(friends, gifts):
+    length = len(friends)
+    answer = [0 for _ in range(length)]
+    array = [[0 for _ in range(length)] for _ in range(length)]
+
+    give_num = [0 for _ in range(length)]
+    receive_num = [0 for _ in range(length)]
+    gift_num = [0 for _ in range(length)]
+
+
+    for gift in gifts:
+        i = friends.index(gift.split(' ')[0])
+        j = friends.index(gift.split(' ')[1])
+        array[i][j] += 1
+
+    for n in range(length):
+        for m in range(length):
+            give_num[n] += array[n][m]
+            receive_num[m] += array[n][m]
+
+    for i in range(length):
+        gift_num[i] = give_num[i] - receive_num[i]
+
+    for x in range(length):
+        for y in range(x, length):
+            if x != y:
+                if array[x][y] == array[y][x]:
+                    if gift_num[x] == gift_num[y]:
+                        continue
+                    if gift_num[x] > gift_num[y]:
+                        answer[x] += 1
+                    if gift_num[x] < gift_num[y]:
+                        answer[y] += 1
+                if array[x][y] > array[y][x]:
+                    answer[x] += 1
+                if array[x][y] < array[y][x]:
+                    answer[y] += 1
+
+    result = max(answer)             
+
+    return result
