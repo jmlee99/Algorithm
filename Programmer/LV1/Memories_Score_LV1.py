@@ -22,3 +22,17 @@ name	yearning	photo	result
 ["kali", "mari", "don"]	[11, 1, 55]	[["kali", "mari", "don"], ["pony", "tom", "teddy"], ["con", "mona", "don"]]	[67, 0, 55]
 ["may", "kein", "kain", "radi"]	[5, 10, 1, 3]	[["may"],["kein", "deny", "may"], ["kon", "coni"]]	[5, 15, 0]
 '''
+def solution(name, yearning, photo):
+    
+    result = [0 for _ in range(len(photo))]
+    
+    for index in range(len(photo)):
+        count = 0
+        for names in photo[index]:
+            if names in name:
+                idx = name.index(names)
+                count += yearning[idx]
+            else:
+                continue
+        result[index] = count
+    return result
